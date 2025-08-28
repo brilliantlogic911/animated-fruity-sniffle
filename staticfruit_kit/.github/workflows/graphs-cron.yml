@@ -1,0 +1,37 @@
+name: StaticFruit Graphs Cron
+
+on:
+  schedule:
+    - cron: "0 * * * *" # hourly
+  workflow_dispatch:
+
+jobs:
+  build-graphs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy matplotlib sqlalchemy psycopg2-binary requests
+      - name: Download graphs script (if not in repo)
+        run: |
+          test -f graphs/staticfruit_graphs_live.py || curl -L -o graphs/staticfruit_graphs_live.py https://raw.githubusercontent.com/your-org/your-repo/main/graphs/staticfruit_graphs_live.py || true
+      - name: Run graphs (REST mode)
+        env:
+          SF_MARKETS_URL: ${{ secrets.SF_MARKETS_URL }}
+          SF_BETS_URL: ${{ secrets.SF_BETS_URL }}
+        run: |
+          mkdir -p out graphs
+          python graphs/staticfruit_graphs_live.py --mode rest --outdir out
+      - name: Upload to Supabase Storage
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+          SUPABASE_STORAGE_BUCKET: ${{ secrets.SUPABASE_STORAGE_BUCKET }}
+        run: |
+          python graphs/upload_to_supabase.py --dir out

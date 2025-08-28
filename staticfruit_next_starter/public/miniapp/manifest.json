@@ -1,0 +1,30 @@
+{
+  "id": "staticfruit",
+  "name": "StaticFruit",
+  "icon": "/icon.svg",
+  "description": "Hip Hop Horoscope \u2022 Base the Bars \u2022 Gossip Markets",
+  "homepage": "https://staticfruit.xyz",
+  "tabs": [
+    {
+      "title": "Home",
+      "url": "/"
+    },
+    {
+      "title": "Horoscope",
+      "url": "/horoscope"
+    },
+    {
+      "title": "Bars",
+      "url": "/bars"
+    },
+    {
+      "title": "Markets",
+      "url": "/markets"
+    }
+  ],
+  "og": {
+    "title": "StaticFruit",
+    "image": "/og.png",
+    "description": "Daily Fruit Signs, Weekly Bars, Culture Bets on Base"
+  }
+}

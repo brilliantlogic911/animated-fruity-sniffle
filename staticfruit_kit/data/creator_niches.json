@@ -1,0 +1,67 @@
+{
+  "niches": [
+    {
+      "id": "dance_challenge",
+      "weight": 1.0,
+      "signals": [
+        "tiktok_sound_uses_delta",
+        "remix_count",
+        "duet_rate"
+      ]
+    },
+    {
+      "id": "battle_rap",
+      "weight": 0.9,
+      "signals": [
+        "engagement_rate",
+        "reply_threads",
+        "remix_bars"
+      ]
+    },
+    {
+      "id": "beauty_fashion",
+      "weight": 0.8,
+      "signals": [
+        "influencer_score",
+        "brand_mentions",
+        "video_length"
+      ]
+    },
+    {
+      "id": "fitness",
+      "weight": 0.7,
+      "signals": [
+        "sound_bpm",
+        "loop_completion",
+        "repeat_use"
+      ]
+    },
+    {
+      "id": "meme_edit",
+      "weight": 0.85,
+      "signals": [
+        "share_rate",
+        "save_rate",
+        "caption_variants"
+      ]
+    },
+    {
+      "id": "drill_scene",
+      "weight": 0.75,
+      "signals": [
+        "geo_cluster",
+        "slang_vector",
+        "tempo_class"
+      ]
+    },
+    {
+      "id": "conscious_rap",
+      "weight": 0.65,
+      "signals": [
+        "lyric_density",
+        "comment_depth",
+        "thread_length"
+      ]
+    }
+  ]
+}
