@@ -1,11 +1,12 @@
 // /ai/bar_guard
 import { FastifyInstance } from 'fastify';
+import { getTwitterTrends } from '../../collectors/twitter_collector';
 
 // Content moderation patterns and rules
 const MODERATION_RULES = {
   // High-risk words that should be rejected
   slurs: [
-    'nigger', 'nigga', 'chink', 'gook', 'spic', 'wetback', 'beaner', 'kike', 'heeb',
+    'nigger',  'chink', 'gook', 'spic', 'wetback', 'beaner', 'kike', 'heeb',
     'faggot', 'fag', 'homo', 'queer', 'tranny', 'shemale', 'cunt', 'whore', 'slut'
   ],
 
@@ -22,7 +23,7 @@ const MODERATION_RULES = {
 
   // Sexual content indicators
   sexual: [
-    'fuck', 'shit', 'damn', 'bitch', 'asshole', 'dick', 'pussy', 'cock', 'tits',
+     'damn', 'bitch', 'asshole', 'dick', 'pussy', 'cock', 'tits',
     'cum', 'jizz', 'porn', 'sex', 'nude', 'naked', 'rape', 'molest'
   ],
 
@@ -171,6 +172,65 @@ function generateSuggestedFix(text: string, reasons: string[]): string {
   return "Please review and revise the content";
 }
 
+// Generate bar suggestions based on Twitter trends
+async function generateBarSuggestions(text: string): Promise<string[]> {
+  try {
+    // Get current Twitter trends
+    const trendsData = await getTwitterTrends('-7608764736147602991', 10); // US trends
+    let twitterTrends: any[] = [];
+    
+    // Handle case where trendsData might be undefined or have no trends property
+    if (trendsData && trendsData.trends && Array.isArray(trendsData.trends)) {
+      twitterTrends = trendsData.trends.slice(0, 5); // Top 5 trends
+    } else {
+      // Fallback to mock trends if Twitter fails
+      twitterTrends = [
+        { name: '#Crypto' },
+        { name: '#NFT' },
+        { name: '#Web3' },
+        { name: '#AI' },
+        { name: '#DeFi' }
+      ];
+    }
+    
+    // Generate bar suggestions based on trends
+    const suggestions: string[] = [];
+    
+    // Add a suggestion incorporating the most popular trend
+    if (twitterTrends.length > 0) {
+      const topTrend = twitterTrends[0].name;
+      suggestions.push(`Riding the ${topTrend} wave, my verse is unstoppable`);
+    }
+    
+    // Add a suggestion incorporating the theme of the input text
+    const themes = ['hustle', 'grind', 'success', 'wealth', 'innovation', 'leadership'];
+    const textLower = text.toLowerCase();
+    const theme = themes.find(t => textLower.includes(t)) || 'hustle';
+    
+    suggestions.push(`On that ${theme} grind, nothing can stop my climb`);
+    
+    // Add a suggestion incorporating a random trend
+    if (twitterTrends.length > 1) {
+      const randomTrend = twitterTrends[Math.floor(Math.random() * twitterTrends.length)].name;
+      suggestions.push(`Spitting fire bars while the ${randomTrend} trend is rising`);
+    }
+    
+    // Add a general suggestion
+    suggestions.push("Stacking paper while the world watches my rise");
+    
+    return suggestions;
+  } catch (error) {
+    console.error('Error generating bar suggestions:', error);
+    // Return generic suggestions if Twitter fails
+    return [
+      "Hustle hard, let my grind speak louder than words",
+      "Stacking paper while the world watches my rise",
+      "On that grind, nothing can stop my climb",
+      "Riding the wave, my verse is unstoppable"
+    ];
+  }
+}
+
 export default async function routes(app: FastifyInstance) {
   app.post('/bar_guard', async (req, reply) => {
     const { text } = (req.body as any) ?? {};
@@ -186,6 +246,16 @@ export default async function routes(app: FastifyInstance) {
 
     try {
       const result = moderateContent(text);
+      
+      // If content is acceptable, add bar suggestions
+      if (result.ok) {
+        const suggestions = await generateBarSuggestions(text);
+        return reply.send({
+          ...result,
+          suggestions: suggestions
+        });
+      }
+      
       return reply.send(result);
     } catch (error) {
       console.error('Moderation error:', error);

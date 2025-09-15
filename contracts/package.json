@@ -6,7 +6,10 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy": "hardhat run scripts/deploy.ts",
-    "verify": "hardhat verify"
+    "verify": "hardhat verify",
+    "generate-verification-json": "hardhat run scripts/generate-verification-json.ts",
+    "extract-verification-json": "ts-node scripts/extract-verification-json.ts",
+    "create-verification-json": "ts-node scripts/create-verification-json.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
@@ -16,5 +19,8 @@
     "@typechain/hardhat": "^9.0.0",
     "hardhat": "^2.19.0",
     "typechain": "^8.3.2"
+  },
+  "dependencies": {
+    "viem": "^2.37.6"
   }
 }

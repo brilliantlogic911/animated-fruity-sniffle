@@ -3,13 +3,18 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 
 /**
  * @title StaticSeeds
  * @dev ERC1155 token for StaticFruit seeds with horoscope-based minting
  */
 contract StaticSeeds is ERC1155, Ownable, ReentrancyGuard {
+    using Strings for uint256;
+    using Address for address payable;
+    
     // Token IDs for different zodiac signs
     mapping(string => uint256) public signToTokenId;
     mapping(uint256 => string) public tokenIdToSign;
@@ -25,9 +30,11 @@ contract StaticSeeds is ERC1155, Ownable, ReentrancyGuard {
     // Events
     event SeedMinted(address indexed user, uint256 indexed tokenId, string sign, uint256 amount);
     event HoroscopeClaimed(address indexed user, uint256 indexed tokenId, string theme);
+    event Withdrawal(address indexed to, uint256 amount);
 
-    constructor()
+    constructor(address initialOwner)
         ERC1155("https://staticfruit.xyz/api/metadata/{id}.json")
+        Ownable(initialOwner)
     {
         // Initialize zodiac signs
         _initializeZodiacSigns();
@@ -101,7 +108,9 @@ contract StaticSeeds is ERC1155, Ownable, ReentrancyGuard {
      * @dev Withdraw contract funds
      */
     function withdraw() external onlyOwner {
-        payable(owner()).transfer(address(this).balance);
+        uint256 amount = address(this).balance;
+        emit Withdrawal(owner(), amount);
+        payable(owner()).sendValue(amount);
     }
 
     /**

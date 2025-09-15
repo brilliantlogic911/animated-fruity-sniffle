@@ -1,0 +1,10 @@
+{
+  "installCommand": "npm install --legacy-peer-deps",
+  "redirects": [
+    {
+      "source": "/.well-known/farcaster.json",
+      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/01994f79-4c85-4fb6-d939-d7d0488eec5a",
+      "statusCode": 307
+    }
+  ]
+}

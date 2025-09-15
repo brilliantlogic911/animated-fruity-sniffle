@@ -1,2 +1,16 @@
-@tailwind base; @tailwind components; @tailwind utilities;
-:root { color-scheme: dark; }
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+.font-orbitron { font-family: 'Orbitron', monospace; }
+.font-inter { font-family: 'Inter', system-ui, sans-serif; }
+.font-jetbrains { font-family: 'JetBrains Mono', monospace; }
+.font-poppins { font-family: 'Poppins', sans-serif; }
+.font-space { font-family: 'Space Grotesk', sans-serif; }
+.font-fira { font-family: 'Fira Code', monospace; }
