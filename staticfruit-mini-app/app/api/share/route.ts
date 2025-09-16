@@ -24,7 +24,8 @@ export async function POST(request: Request) {
       shares: sharesDB[predictionId],
       predictionId 
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error processing share:', error);
     return NextResponse.json({ error: 'Failed to process share' }, { status: 500 });
   }
 }
@@ -42,7 +43,8 @@ export async function GET(request: Request) {
       shares: sharesDB[predictionId] || 0,
       predictionId 
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching shares:', error);
     return NextResponse.json({ error: 'Failed to fetch shares' }, { status: 500 });
   }
 }

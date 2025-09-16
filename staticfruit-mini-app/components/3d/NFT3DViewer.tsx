@@ -10,6 +10,17 @@ interface NFT3DViewerProps {
   tier: string;
 }
 
+interface ModelStatus {
+  status: string;
+  model_urls?: {
+    glb?: string;
+  };
+}
+
+interface GenerateResponse {
+  taskId: string;
+}
+
 export default function NFT3DViewer({ nftId, tier }: NFT3DViewerProps) {
   const [modelUrl, setModelUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,13 +40,13 @@ export default function NFT3DViewer({ nftId, tier }: NFT3DViewerProps) {
           if (storedTaskId) {
             setTaskId(storedTaskId);
             // Check the status of the existing task
-            const status = await getModelStatus(storedTaskId);
+            const status = await getModelStatus(storedTaskId) as ModelStatus;
             if (status.status === 'completed' && status.model_urls?.glb) {
               setModelUrl(status.model_urls.glb);
             }
           } else {
             // Generate a new 3D model
-            const response = await generateLegendaryNFTModel(nftId);
+            const response = await generateLegendaryNFTModel(nftId) as GenerateResponse;
             const newTaskId = response.taskId;
             setTaskId(newTaskId);
             localStorage.setItem(`nft-${nftId}-3d-task`, newTaskId);
@@ -44,7 +55,7 @@ export default function NFT3DViewer({ nftId, tier }: NFT3DViewerProps) {
           // Poll for completion if we don't have a model URL yet
           if (!modelUrl && taskId) {
             const pollInterval = setInterval(async () => {
-              const status = await getModelStatus(taskId);
+              const status = await getModelStatus(taskId) as ModelStatus;
               if (status.status === 'completed' && status.model_urls?.glb) {
                 setModelUrl(status.model_urls.glb);
                 clearInterval(pollInterval);

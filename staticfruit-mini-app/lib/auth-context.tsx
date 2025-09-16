@@ -7,7 +7,7 @@ interface AuthContextType {
   userAddress: string | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
-  trackEvent: (eventName: string, properties?: Record<string, any>) => void;
+  trackEvent: (eventName: string, properties?: Record<string, unknown>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,14 +15,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [userAddress, setUserAddress] = useState<string | null>(null);
-  const [provider, setProvider] = useState<any>(null);
+  const [provider, setProvider] = useState<unknown>(null);
 
   // Initialize Base Account SDK
   useEffect(() => {
     const initializeProvider = () => {
-      if (typeof window !== 'undefined' && (window as any).createBaseAccountSDK) {
+      if (typeof window !== 'undefined' && (window as unknown as { createBaseAccountSDK: (config: { appName: string; appLogoUrl: string }) => { getProvider: () => unknown } }).createBaseAccountSDK) {
         try {
-          const baseProvider = (window as any).createBaseAccountSDK({
+          const baseProvider = (window as unknown as { createBaseAccountSDK: (config: { appName: string; appLogoUrl: string }) => { getProvider: () => unknown } }).createBaseAccountSDK({
             appName: 'StaticFruit',
             appLogoUrl: 'https://staticfruit.com/logo.png',
           }).getProvider();
@@ -85,9 +85,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // In a real app, you would send the message and signature to your backend for verification
       console.log('Authentication data:', { address, message, signature });
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Sign-in error:', error);
-      trackEvent('wallet_connect_error', { error: error.message });
+      trackEvent('wallet_connect_error', { error: (error as Error).message });
       throw error;
     }
   }, [provider, generateNonce]);
@@ -100,7 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Track events for analytics funnel
-  const trackEvent = useCallback((eventName: string, properties?: Record<string, any>) => {
+  const trackEvent = useCallback((eventName: string, properties?: Record<string, unknown>) => {
     // In a real app, this would send data to your analytics backend
     console.log(`[Analytics] ${eventName}:`, properties);
     
@@ -120,8 +120,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkActivation = useCallback(() => {
     if (typeof window !== 'undefined') {
       const funnelEvents = JSON.parse(localStorage.getItem('funnel_events') || '[]');
-      return funnelEvents.some((event: any) => 
-        event.event === 'prediction_stake_success' || 
+      return funnelEvents.some((event: { event: string }) =>
+        event.event === 'prediction_stake_success' ||
         event.event === 'prediction_create_success' ||
         event.event === 'comment_create_success'
       );

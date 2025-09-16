@@ -36,7 +36,8 @@ export async function POST(request: Request) {
       stakes: stakesDB[predictionId],
       predictionId 
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error processing stake:', error);
     return NextResponse.json({ error: 'Failed to process stake' }, { status: 500 });
   }
 }
@@ -54,7 +55,8 @@ export async function GET(request: Request) {
       stakes: stakesDB[predictionId] || { yes: 0, no: 0 },
       predictionId 
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching stakes:', error);
     return NextResponse.json({ error: 'Failed to fetch stakes' }, { status: 500 });
   }
 }

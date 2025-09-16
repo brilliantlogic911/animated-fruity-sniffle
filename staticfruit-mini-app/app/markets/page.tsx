@@ -49,7 +49,7 @@ export default function Page() {
   // Fetch initial predictions
   useEffect(() => {
     fetchPredictions();
-  }, []);
+  }, [fetchPredictions]);
 
   const fetchPredictions = async () => {
     try {

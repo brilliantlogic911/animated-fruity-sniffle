@@ -45,7 +45,8 @@ export async function GET(request: Request) {
       nextCursor,
       hasMore
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching predictions:', error);
     return NextResponse.json({ error: 'Failed to fetch predictions' }, { status: 500 });
   }
 }

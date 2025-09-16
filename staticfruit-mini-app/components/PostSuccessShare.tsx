@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  Share2, 
-  Twitter, 
-  Copy, 
-  Check, 
-  X 
+import {
+  Twitter,
+  Copy,
+  Check,
+  X
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 

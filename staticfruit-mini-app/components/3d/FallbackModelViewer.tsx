@@ -10,6 +10,11 @@ interface FallbackModelViewerProps {
   description?: string;
 }
 
+interface FileInfo {
+  size: string;
+  type: string;
+}
+
 export default function FallbackModelViewer({
   modelUrl,
   scale = 1,
@@ -17,7 +22,7 @@ export default function FallbackModelViewer({
   description = "Generated with Meshy AI"
 }: FallbackModelViewerProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [fileInfo, setFileInfo] = useState<{ size: string; type: string } | null>(null);
+  const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
 
   useEffect(() => {
     const getFileInfo = async () => {

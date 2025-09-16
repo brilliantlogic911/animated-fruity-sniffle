@@ -33,9 +33,9 @@ const BaseAuthButton: React.FC<BaseAuthButtonProps> = ({
       
       // Callback
       if (onConnect) onConnect();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Connection failed:', err);
-      setError(err.message || 'Failed to connect wallet');
+      setError((err as Error).message || 'Failed to connect wallet');
     } finally {
       setIsConnecting(false);
     }

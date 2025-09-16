@@ -16,7 +16,6 @@ import {
   ThumbsUp,
   MessageCircle,
   Share2,
-  TrendingUp,
   ChevronUp,
   ChevronDown
 } from 'lucide-react';
@@ -49,11 +48,6 @@ interface Prediction {
   createdAt: number;
 }
 
-interface InteractionCounts {
-  likes: number;
-  comments: number;
-  shares: number;
-}
 
 interface InteractivePredictionCardProps {
   prediction: Prediction;
@@ -171,10 +165,10 @@ const InteractivePredictionCard: React.FC<InteractivePredictionCardProps> = ({ p
       } else {
         trackEvent('prediction_like_success', { predictionId: prediction.id });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Revert if failed
       setLikes(prev => prev - 1);
-      trackEvent('prediction_like_error', { predictionId: prediction.id, error: error.message });
+      trackEvent('prediction_like_error', { predictionId: prediction.id, error: (error as Error).message });
       console.error('Failed to like prediction:', error);
     }
   };
@@ -206,10 +200,10 @@ const InteractivePredictionCard: React.FC<InteractivePredictionCardProps> = ({ p
       } else {
         trackEvent('prediction_comment_success', { predictionId: prediction.id });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Revert if failed
       setComments(prev => prev - 1);
-      trackEvent('prediction_comment_error', { predictionId: prediction.id, error: error.message });
+      trackEvent('prediction_comment_error', { predictionId: prediction.id, error: (error as Error).message });
       console.error('Failed to comment on prediction:', error);
     }
   };
@@ -237,10 +231,10 @@ const InteractivePredictionCard: React.FC<InteractivePredictionCardProps> = ({ p
       } else {
         trackEvent('prediction_share_success', { predictionId: prediction.id, platform });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Revert if failed
       setShares(prev => prev - 1);
-      trackEvent('prediction_share_error', { predictionId: prediction.id, platform, error: error.message });
+      trackEvent('prediction_share_error', { predictionId: prediction.id, platform, error: (error as Error).message });
       console.error('Failed to share prediction:', error);
     }
   };
@@ -297,12 +291,12 @@ const InteractivePredictionCard: React.FC<InteractivePredictionCardProps> = ({ p
         });
         console.error('Failed to stake:', data.error);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       trackEvent('prediction_stake_error', {
         predictionId: prediction.id,
         amount: stakeAmount,
         side: selectedSide,
-        error: error.message
+        error: (error as Error).message
       });
       console.error('Failed to stake:', error);
     } finally {

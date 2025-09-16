@@ -19,7 +19,8 @@ export async function POST(request: Request) {
       likes: likesDB[predictionId],
       predictionId 
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error processing like:', error);
     return NextResponse.json({ error: 'Failed to process like' }, { status: 500 });
   }
 }
@@ -37,7 +38,8 @@ export async function GET(request: Request) {
       likes: likesDB[predictionId] || 0,
       predictionId 
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching likes:', error);
     return NextResponse.json({ error: 'Failed to fetch likes' }, { status: 500 });
   }
 }

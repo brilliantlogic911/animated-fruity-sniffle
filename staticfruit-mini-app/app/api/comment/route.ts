@@ -30,7 +30,8 @@ export async function POST(request: Request) {
       success: true, 
       comment: newComment
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error adding comment:', error);
     return NextResponse.json({ error: 'Failed to add comment' }, { status: 500 });
   }
 }
@@ -47,7 +48,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ 
       comments: commentsDB[predictionId] || []
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Error fetching comments:', error);
     return NextResponse.json({ error: 'Failed to fetch comments' }, { status: 500 });
   }
 }

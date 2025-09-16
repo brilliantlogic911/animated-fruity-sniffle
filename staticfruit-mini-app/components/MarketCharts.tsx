@@ -222,13 +222,13 @@ const MarketCharts: React.FC<MarketChartsProps> = ({ oddsData, poolsData, leader
       } else {
         trackEvent('market_like_success', { marketId });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Revert if failed
       setLikes(prev => ({
         ...prev,
         [marketId]: Math.max(0, (prev[marketId] || 0) - 1)
       }));
-      trackEvent('market_like_error', { marketId, error: error.message });
+      trackEvent('market_like_error', { marketId, error: (error as Error).message });
       console.error('Failed to like market:', error);
     }
   };
@@ -266,13 +266,13 @@ const MarketCharts: React.FC<MarketChartsProps> = ({ oddsData, poolsData, leader
       } else {
         trackEvent('market_comment_success', { marketId });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Revert if failed
       setComments(prev => ({
         ...prev,
         [marketId]: Math.max(0, (prev[marketId] || 0) - 1)
       }));
-      trackEvent('market_comment_error', { marketId, error: error.message });
+      trackEvent('market_comment_error', { marketId, error: (error as Error).message });
       console.error('Failed to comment on market:', error);
     }
   };
@@ -306,13 +306,13 @@ const MarketCharts: React.FC<MarketChartsProps> = ({ oddsData, poolsData, leader
       } else {
         trackEvent('market_share_success', { marketId, platform });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Revert if failed
       setShares(prev => ({
         ...prev,
         [marketId]: Math.max(0, (prev[marketId] || 0) - 1)
       }));
-      trackEvent('market_share_error', { marketId, platform, error: error.message });
+      trackEvent('market_share_error', { marketId, platform, error: (error as Error).message });
       console.error('Failed to share market:', error);
     }
   };
@@ -371,8 +371,8 @@ const MarketCharts: React.FC<MarketChartsProps> = ({ oddsData, poolsData, leader
         trackEvent('market_stake_error', { marketId, amount, side, error: data.error });
         console.error('Failed to stake:', data.error);
       }
-    } catch (error: any) {
-      trackEvent('market_stake_error', { marketId, amount, side, error: error.message });
+    } catch (error: unknown) {
+      trackEvent('market_stake_error', { marketId, amount, side, error: (error as Error).message });
       console.error('Failed to stake:', error);
     }
   };

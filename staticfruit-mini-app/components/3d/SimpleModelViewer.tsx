@@ -22,8 +22,8 @@ export default function SimpleModelViewer({ modelUrl, scale = 1 }: SimpleModelVi
     const initThree = async () => {
       try {
         const THREE = await import('three');
-        const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls');
-        const { OBJLoader } = await import('three/examples/jsm/loaders/OBJLoader');
+        const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+        const { OBJLoader } = await import('three/addons/loaders/OBJLoader.js');
         
         if (!containerRef.current) return;
         
@@ -58,7 +58,7 @@ export default function SimpleModelViewer({ modelUrl, scale = 1 }: SimpleModelVi
         const loader = new OBJLoader();
         loader.load(
           modelUrl,
-          (object) => {
+          (object: THREE.Object3D) => {
             // Center the object
             const box = new THREE.Box3().setFromObject(object);
             const center = box.getCenter(new THREE.Vector3());
@@ -72,8 +72,8 @@ export default function SimpleModelViewer({ modelUrl, scale = 1 }: SimpleModelVi
             scene.add(object);
           },
           undefined,
-          (error) => {
-            console.error('Error loading OBJ model:', error);
+          (loadError: unknown) => {
+            console.error('Error loading OBJ model:', loadError);
             setError('Failed to load 3D model. Please try refreshing the page.');
           }
         );
@@ -134,8 +134,8 @@ export default function SimpleModelViewer({ modelUrl, scale = 1 }: SimpleModelVi
 
   return (
     <div className="w-full h-96 rounded-lg overflow-hidden">
-      <div 
-        ref={containerRef} 
+      <div
+        ref={containerRef}
         className="w-full h-full bg-charcoal"
       />
       <div className="text-xs text-silver text-center mt-1">
