@@ -8,12 +8,14 @@ interface BaseAuthButtonProps {
   onConnect?: () => void;
   onDisconnect?: () => void;
   className?: string;
+  compact?: boolean;
 }
 
-const BaseAuthButton: React.FC<BaseAuthButtonProps> = ({ 
-  onConnect, 
+const BaseAuthButton: React.FC<BaseAuthButtonProps> = ({
+  onConnect,
   onDisconnect,
-  className = ''
+  className = '',
+  compact = false
 }) => {
   const { isConnected, userAddress, connectWallet, disconnectWallet, trackEvent } = useAuth();
   const [isConnecting, setIsConnecting] = useState(false);
@@ -51,14 +53,14 @@ const BaseAuthButton: React.FC<BaseAuthButtonProps> = ({
   if (isConnected && userAddress) {
     return (
       <div className={`flex items-center gap-2 ${className}`}>
-        <div className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium">
+        <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap">
           Connected: {userAddress.slice(0, 6)}...{userAddress.slice(-4)}
         </div>
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={handleDisconnect}
-          className="border-gray-600 text-gray-300 hover:bg-gray-800"
+          className="border-gray-600 text-gray-300 hover:bg-gray-800 h-8 px-3 text-xs"
         >
           Disconnect
         </Button>
@@ -71,7 +73,7 @@ const BaseAuthButton: React.FC<BaseAuthButtonProps> = ({
       <Button
         onClick={handleConnect}
         disabled={isConnecting}
-        className="bg-purple-600 hover:bg-purple-700 text-white"
+        className={`bg-purple-600 hover:bg-purple-700 text-white ${compact ? 'h-8 px-3 py-1.5 text-xs whitespace-nowrap' : ''}`}
       >
         {isConnecting ? (
           <span className="flex items-center">
@@ -79,19 +81,21 @@ const BaseAuthButton: React.FC<BaseAuthButtonProps> = ({
             Connecting...
           </span>
         ) : (
-          'Sign in with Base'
+          compact ? 'Sign in' : 'Sign in with Base'
         )}
       </Button>
       
-      {error && (
+      {error && !compact && (
         <div className="mt-2 text-red-400 text-sm">
           {error}
         </div>
       )}
       
-      <div className="mt-2 text-xs text-gray-500">
-        Connect your Base Account to stake and interact with predictions
-      </div>
+      {!compact && (
+        <div className="mt-2 text-xs text-gray-500">
+          Connect your Base Account to stake and interact with predictions
+        </div>
+      )}
     </div>
   );
 };

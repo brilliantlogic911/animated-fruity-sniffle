@@ -5,6 +5,10 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
+    "test:live": "hardhat test test/live --network base",
+    "test:fork": "cross-env FORK_MAINNET=1 hardhat test test/fork",
+    "coverage": "hardhat coverage",
+    "gas-report": "cross-env GAS_REPORT=true hardhat test",
     "deploy": "hardhat run scripts/deploy.ts",
     "verify": "hardhat verify",
     "generate-verification-json": "hardhat run scripts/generate-verification-json.ts",
@@ -18,7 +22,11 @@
     "@openzeppelin/contracts-upgradeable": "^5.0.0",
     "@typechain/hardhat": "^9.0.0",
     "hardhat": "^2.19.0",
-    "typechain": "^8.3.2"
+    "typechain": "^8.3.2",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "hardhat-gas-reporter": "^1.0.10",
+    "solidity-coverage": "^0.8.8"
   },
   "dependencies": {
     "viem": "^2.37.6"

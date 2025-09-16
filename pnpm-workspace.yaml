@@ -1,0 +1,6 @@
+packages:
+  - "staticfruit_next_starter"
+  - "staticfruit-mini-app"
+  - "packages/*"
+  - "agent"
+  - "agent/staticagent"

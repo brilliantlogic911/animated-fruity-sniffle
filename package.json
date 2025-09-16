@@ -1,0 +1,22 @@
+{
+  "name": "staticfruit-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Monorepo for StaticFruit: web app and Farcaster Mini App with shared packages",
+  "packageManager": "pnpm@9.11.0",
+  "scripts": {
+    "dev:web": "pnpm --filter ./staticfruit_next_starter dev",
+    "dev:mini": "pnpm --filter ./staticfruit-mini-app dev",
+    "build:web": "pnpm --filter ./staticfruit_next_starter build",
+    "build:mini": "pnpm --filter ./staticfruit-mini-app build",
+    "start:web": "pnpm --filter ./staticfruit_next_starter start",
+    "start:mini": "pnpm --filter ./staticfruit-mini-app start",
+    "lint:web": "pnpm --filter ./staticfruit_next_starter lint",
+    "lint:mini": "pnpm --filter ./staticfruit-mini-app lint"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "author": "",
+  "license": "MIT"
+}

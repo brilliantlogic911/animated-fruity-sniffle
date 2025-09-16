@@ -1,0 +1,19 @@
+# Environment variables
+.env
+
+# Hardhat
+artifacts/
+cache/
+coverage/
+coverage.json
+
+# TypeChain
+typechain/
+
+# Node
+node_modules/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

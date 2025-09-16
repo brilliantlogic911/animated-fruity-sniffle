@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@staticfruit/core": "workspace:*",
+    "@staticfruit/ui": "workspace:*",
     "@coinbase/onchainkit": "latest",
     "@farcaster/miniapp-sdk": "^0.1.8",
     "@react-three/drei": "^10.7.6",
