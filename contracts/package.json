@@ -5,8 +5,8 @@
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "test:live": "hardhat test test/live --network base",
-    "test:fork": "cross-env FORK_MAINNET=1 hardhat test test/fork",
+    "test:live": "hardhat test test/live.spec.ts --network base",
+    "test:fork": "set FORK_MAINNET=1 && hardhat test test/fork.spec.ts",
     "coverage": "hardhat coverage",
     "gas-report": "cross-env GAS_REPORT=true hardhat test",
     "deploy": "hardhat run scripts/deploy.ts",

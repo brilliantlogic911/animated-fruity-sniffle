@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers, network } from "hardhat";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
-import { StaticFruitDeliciousAnimated__factory, StaticSeeds__factory } from "../../typechain";
+import { StaticFruitDeliciousAnimated__factory, StaticSeeds__factory } from "../typechain";
 
 const ERC2981_INTERFACE_ID = "0x2a55205a";
 
@@ -95,10 +95,10 @@ describe("Mainnet fork tests (stateful simulations)", function () {
       const { nft, owner, user } = await loadFixture(setupFork);
 
       const initialMintOpen = await nft.mintOpen();
-      await expect(nft.connect(owner).toggleMint()).to.not.be.reverted;
+      await expect((nft.connect(owner) as any).toggleMint()).to.not.be.reverted;
       expect(await nft.mintOpen()).to.eq(!initialMintOpen);
 
-      await expect(nft.connect(user).toggleMint()).to.be.revertedWith("OwnableUnauthorizedAccount");
+      await expect((nft.connect(user) as any).toggleMint()).to.be.revertedWith("OwnableUnauthorizedAccount");
     });
 
     it("withdraws full balance to payout address, emits Withdrawal", async function () {

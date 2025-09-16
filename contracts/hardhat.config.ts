@@ -77,6 +77,9 @@ const config: HardhatUserConfig = {
     token: "ETH",
     showTimeSpent: true,
   },
+  paths: {
+    tests: "test",
+  },
 };
 
 export default config;
